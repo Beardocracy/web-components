@@ -1,23 +1,25 @@
 <template>
-  <div class="header">
+  <figure class="logo">
+    <img
+      @click="celebrate"
+      src="./images/CheapandEasy_July2022.png"
+      alt="CElogo"
+    />
+  </figure>
+  <Teleport to=".explosions_l">
     <ConfettiExplosion
       v-if="visible"
       :particleSize="18"
       :colors="colorPalette"
     />
-    <figure>
-      <img
-        @click="celebrate"
-        src="./images/CheapandEasy_July2022.png"
-        alt="CElogo"
-      />
-    </figure>
+  </Teleport>
+  <Teleport to=".explosions_r">
     <ConfettiExplosion
       v-if="visible"
       :particleSize="18"
       :colors="colorPalette"
     />
-  </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -35,6 +37,12 @@ const colorPalette = ["#058A73", "#888B34", "#E5AB22", "#DC4534"];
 </script>
 
 <style scoped>
+figure.logo {
+  @apply border-2;
+  position: absolute;
+  top: 0;
+  right: 50%;
+}
 img {
   @apply justify-self-center;
   height: 150px;
@@ -42,12 +50,5 @@ img {
 }
 img:hover {
   cursor: pointer;
-}
-.header {
-  @apply flex flex-row items-center justify-center w-full;
-  overflow: visible;
-}
-.explosions {
-  overflow: visible;
 }
 </style>

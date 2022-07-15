@@ -1,24 +1,26 @@
 <template>
-  <div class="reveal_container bg-purple-400">
-    <Transition name="bounce">
-      <div class="reveal-box">
-        <button-easy
-          v-if="showCategory"
-          @click="explode"
-          :msg="revType"
-          lightOrDark="light"
-        />
-      </div>
-    </Transition>
-    <div class="reveal-box">
-      <Transition name="bounce">
-        <div class="revealed" v-if="showResult" @click="toggleBoxes">
-          {{ revValue }}
-        </div>
-      </Transition>
+  <button-easy
+    v-if="!showResult"
+    @click="explode"
+    :msg="revType"
+    lightOrDark="light"
+  />
+
+  <Transition name="bounce">
+    <div class="revealed" v-if="showResult" @click="showResult = !showResult">
+      {{ revValue }}
     </div>
-  </div>
-  <Teleport to=".explosions">
+  </Transition>
+
+  <Teleport to=".explosions_l">
+    <ConfettiExplosion
+      v-if="visible"
+      :particleSize="18"
+      :colors="colorPalette"
+      :duration="2000"
+    />
+  </Teleport>
+  <Teleport to=".explosions_r">
     <ConfettiExplosion
       v-if="visible"
       :particleSize="18"
@@ -32,24 +34,29 @@
 import { nextTick, ref } from "vue";
 import ConfettiExplosion from "vue-confetti-explosion";
 import ButtonEasy from "./ButtonEasy.vue";
+import { useDrunkStore } from "@/stores/drunks";
+
+const drunkList = useDrunkStore();
+
+const updateScores = (cat, value) => {
+  drunkList.forEach((drunk) => {
+    if (drunk.cat === value) {
+      drunk.score++;
+    }
+  });
+};
 
 const showResult = ref(false);
-const showCategory = ref(true);
 const visible = ref(false);
 const explode = async () => {
   visible.value = false;
   await nextTick();
   visible.value = true;
-  showCategory.value = false;
-  setTimeout(() => (showResult.value = true), 0);
+  showResult.value = true;
+  updateScores(props.drunkCode.value, props.revValue.value);
 };
 
-const toggleBoxes = () => {
-  showCategory.value = !showCategory.value;
-  showResult.value = !showResult.value;
-};
-
-defineProps({
+const props = defineProps({
   revType: {
     type: String,
     required: true,
@@ -58,32 +65,18 @@ defineProps({
     type: String,
     required: true,
   },
+  drunkCode: {
+    type: String,
+    required: false,
+  },
 });
 
 const colorPalette = ["#058A73", "#888B34", "#E5AB22", "#DC4534"];
 </script>
 
 <style scoped>
-.reveal_container {
-  @apply block;
-  width: 150px;
-  overflow: visible;
-  margin: 0.5rem;
-}
-.reveal-box {
-  margin: 20px;
-  display: block;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}
 .revealed {
   @apply font-extrabold text-center;
-  text-align: 2.2;
-  width: 100%;
-  display: block;
-  padding: 1rem;
-  border-radius: 4px;
   color: rgba(0, 0, 0, 0.54);
 }
 .bounce-enter-active {

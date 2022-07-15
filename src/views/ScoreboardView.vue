@@ -1,14 +1,17 @@
 <template>
-  <rainbow-headline />
-  <div class="flex flex-row">
-    <reveal-button revType="Variety" revValue="Sauv Blanc" />
-    <reveal-button revType="Type" revValue="Sauv Blanc" />
+  <div class="grid grid-rows-2">
+    <div class="">
+      <WineRevealer />
+    </div>
+    <div class="">
+      <ScoreBoard />
+    </div>
   </div>
 </template>
 
 <script setup>
-import RainbowHeadline from "@components/EasyScoreboard/RainbowHeadline.vue";
-import RevealButton from "@components/EasyScoreboard/RevealButton.vue";
+import WineRevealer from "../components/EasyScoreboard/WineRevealer.vue";
+import ScoreBoard from "../components/EasyScoreboard/ScoreBoard.vue";
 </script>
 
 <style scoped></style>

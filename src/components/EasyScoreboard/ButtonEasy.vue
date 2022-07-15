@@ -1,5 +1,5 @@
 <template>
-  <button href="" class="btn-gradient">{{ msg }}</button>
+  <a href="#" class="btn-gradient">{{ msg }}</a>
 </template>
 
 <script setup>
@@ -22,11 +22,9 @@ let gradientThree = "#058A73";
 <style scoped>
 .btn-gradient {
   text-align: center;
-  line-height: 2.2;
-  width: 100%;
-  display: block;
   padding: 1rem;
   border-radius: 4px;
+  border-color: red;
   transition: all 300ms;
   -webkit-transition: all 300ms;
   color: rgba(0, 0, 0, 0.54);
@@ -60,7 +58,7 @@ let gradientThree = "#058A73";
     v-bind(gradientTwo) 50%,
     v-bind(gradientThree) 100%
   );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='v-bind(gradientOne)',endColorstr='v-bind(gradientThree)',GradientType=1);
+  /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='v-bind(gradientOne)',endColorstr='v-bind(gradientThree)',GradientType=1); */
   background-size: 400%;
   animation: Gradient 0.75s ease infinite;
 }
